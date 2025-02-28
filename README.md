@@ -1,2 +1,5 @@
-# b60-finaltask-c
-Final Task
+# Final Task
+
+## Number 1
+
+Using regular for loop
