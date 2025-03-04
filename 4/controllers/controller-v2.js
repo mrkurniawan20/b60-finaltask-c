@@ -11,7 +11,7 @@ const { Sequelize } = require('sequelize'); //pake sequlize biar ga pake raw que
 const bcrypt = require('bcrypt'); //pake bcrypt buat enkripsi
 
 const config = require('../config/config.json'); //ambil config
-const { Blog, User, Project } = require('../models'); //ambil Blog, sama User, ini table yang ada di sql
+const { Collection, User, Task } = require('../models'); //ambil Blog, sama User, ini table yang ada di sql
 
 //test create project
 // async function createProject() {
@@ -38,8 +38,17 @@ const sequelize = new Sequelize(config.development); //const sequelize buat masu
 
 async function renderIndex(req, res) {
   const user = await req.session.user; //untuk masukin session ke web page index
+  const collections = await Collection.findAll({
+    include: {
+      model: User,
+      as: 'user', //manggil assosiates model user pake variable user. jadi bisa ambil blog.user.name (nama dari user, foreign key nya dari authorID)
+      attributes: { exclude: ['password'] }, //untuk exclude password just in case someone could see
+    },
+    order: [['createdAt', 'DESC']],
+  });
   res.render('index', {
     user: user, //deklarasi user nya biar kena detect function session di web page tsb
+    collections: collections,
     title: 'Home',
     currentPage: 'home',
     ...icon,
@@ -114,7 +123,7 @@ async function authLogin(req, res) {
 }
 
 async function authRegister(req, res) {
-  const { name, email, password, confirmPassword } = req.body;
+  const { username, email, password, confirmPassword } = req.body;
   if (password != confirmPassword) {
     //konfirmasi password
     req.flash('error', 'Password is not the same'); //error kalo password sala
@@ -136,7 +145,7 @@ async function authRegister(req, res) {
   const hashedPassword = await bcrypt.hash(password, saltRounds); //declare const buat hashing, bcrypt.hash function hashing nya, argumen pertama password yang dimasukin, argumen kedua berapa kali hashing nya, di atas udah dipakein variable 10 di saltRounds
   const newUser = {
     //bikin user baru dengan password yang sudah di hashing
-    name,
+    username,
     email,
     password: hashedPassword, //assigning variable password pake hashedPassword diatas
   };

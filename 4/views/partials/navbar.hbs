@@ -1,6 +1,12 @@
 <nav class="navbar bg-body-tertiary">
-  <form class="container-fluid justify-content-start">
-    <button class="btn btn-sm btn-outline-secondary" type="button">Smaller button</button>
-    <button class="btn btn-sm btn-outline-secondary" type="button">Smaller button</button>
-  </form>
+  {{#unless user}}
+  <div class="container-fluid justify-content-start">
+    <a href="/login">
+      <button class="btn btn-sm btn-outline-secondary" type="button">Login</button>
+    </a>
+    <a href="/register">
+      <button class="btn btn-sm btn-outline-secondary" type="button">Register</button>
+    </a>
+  </div>
+  {{/unless}}
 </nav>

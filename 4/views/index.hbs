@@ -1,3 +1,51 @@
 {{#>layout}}
-Hihi
+Collections
+
+<div class="container-collections mx-5" onclick="">
+    {{#each collections}}
+
+    <div class="collections">
+        <a href="">
+            <img src="/assets/img/task.png" width="2%" alt="">
+            <div class="inside-collections" style="display: flex;">
+                <div style="display:block">
+                    <h4>{{this.name}}</h4>
+                    <span>2/9 Done</span>
+                </div>
+                <img src="/assets/img/clock.png" width="2%" height="2%" alt="">
+            </div>
+        </a>
+    </div>
+    {{/each}}
+    {{!-- <div class="collections">
+        <img src="/assets/img/icon.jpg" width="2%" alt="">
+        <div class="inside-collections" style="display: flex;">
+            <div style="display:block">
+                <h4>School</h4>
+                <span>2/9 Done</span>
+            </div>
+            <img src="/assets/img/clock.png" width="2%" height="2%" alt="">
+        </div>
+    </div>
+    <div class="collections">
+        <img src="/assets/img/icon.jpg" width="2%" alt="">
+        <div class="inside-collections" style="display: flex;">
+            <div style="display:block">
+                <h4>School</h4>
+                <span>2/9 Done</span>
+            </div>
+            <img src="/assets/img/clock.png" width="2%" height="2%" alt="">
+        </div>
+    </div>
+    <div class="collections">
+        <img src="/assets/img/icon.jpg" width="2%" alt="">
+        <div class="inside-collections" style="display: flex;">
+            <div style="display:block">
+                <h4>School</h4>
+                <span>2/9 Done</span>
+            </div>
+            <img src="/assets/img/clock.png" width="2%" height="2%" alt="">
+        </div>
+    </div> --}}
+</div>
 {{/layout}}

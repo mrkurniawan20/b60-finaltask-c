@@ -2,6 +2,7 @@ const express = require('express');
 const hbs = require('hbs');
 const app = express();
 const path = require('path');
+const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
 
@@ -43,6 +44,7 @@ app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(flash());
 app.use(
   session({
     //ngasih tau kalo server menggunakan session
@@ -60,4 +62,12 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
+//RENDER INDEX
 app.get('/', renderIndex);
+
+//RENDER LOGIN
+app.get('/login', renderLogin);
+app.get('/register', renderRegister);
+app.post('/auth-login', authLogin);
+app.post('/auth-register', authRegister);
+app.get('/logout', authLogout);
