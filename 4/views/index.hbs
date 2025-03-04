@@ -1,28 +1,34 @@
 {{#>layout}}
-Collections
+<p class="collections-text m-5 ">Collections</p>
 
 <div class="container-collections mx-5" onclick="">
     {{#each collections}}
 
-    <div class="collections m-0">
+    <div class="collections">
         <a href="/collection/{{this.id}}">
-            <img src="/assets/img/task.png" width="10%" alt="">
+            <img class="task-image" src="/assets/img/task.png" alt="">
             <div class="inside-collections" style="display: flex;">
-                <div style="display:block">
+                <div>
                     <h4>{{this.name}}</h4>
-                    <span>2/9 Done</span>
+                    <span>{{this.TaskCompleted}}/{{this.TaskTotal}} Done</span>
                 </div>
-                <img src="/assets/img/clock.png" width="10%" height="2%" alt="">
+                {{#unless (eq TaskCompleted TaskTotal)}}
+                <img src="/assets/img/clock.png" class="ms-auto">
+                {{/unless}}
+                {{#if (eq TaskCompleted TaskTotal)}}
+                <img src="/assets/img/check.png" class="ms-auto " alt="">
+                {{/if}}
             </div>
         </a>
     </div>
     {{/each}}
     {{#if user}}
-    <div class="collections m-0">
-        <a href="" class="btn m-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            <img src="/assets/img/plus.png" alt="" width="40%">
+    <div class="collections">
+        <a href="" class="add-image" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <img src="/assets/img/plus.png" alt="">
         </a>
     </div>
+    {{/if}}
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -47,36 +53,5 @@ Collections
             </div>
         </div>
     </div>
-    {{/if}}
-    {{!-- <div class="collections">
-        <img src="/assets/img/icon.jpg" width="2%" alt="">
-        <div class="inside-collections" style="display: flex;">
-            <div style="display:block">
-                <h4>School</h4>
-                <span>2/9 Done</span>
-            </div>
-            <img src="/assets/img/clock.png" width="2%" height="2%" alt="">
-        </div>
-    </div>
-    <div class="collections">
-        <img src="/assets/img/icon.jpg" width="2%" alt="">
-        <div class="inside-collections" style="display: flex;">
-            <div style="display:block">
-                <h4>School</h4>
-                <span>2/9 Done</span>
-            </div>
-            <img src="/assets/img/clock.png" width="2%" height="2%" alt="">
-        </div>
-    </div>
-    <div class="collections">
-        <img src="/assets/img/icon.jpg" width="2%" alt="">
-        <div class="inside-collections" style="display: flex;">
-            <div style="display:block">
-                <h4>School</h4>
-                <span>2/9 Done</span>
-            </div>
-            <img src="/assets/img/clock.png" width="2%" height="2%" alt="">
-        </div>
-    </div> --}}
 </div>
 {{/layout}}

@@ -1,8 +1,8 @@
 /* IMPORTANT */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 :root {
-  --primary-color: #d1c5c5;
-  --secondary-color: rgb(231, 223, 223);
+  --primary-color: rgb(19, 19, 23);
+  --secondary-color: rgb(34, 36, 51);
   --tertiary-color: #fe4e30;
 }
 html {
@@ -23,44 +23,203 @@ body {
 /* GENERAL ANCHOR */
 a {
   text-decoration: none !important;
-  padding: 1em 0;
+  /* padding: 1em 0; */
   white-space: nowrap;
+  color: white;
 }
 
 /* FOOTER  */
+
+footer ul li a,
+.nav-item .nav-link,
+footer p {
+  color: white !important;
+}
 footer ul li a:hover,
 .nav-item .nav-link:hover {
   color: grey !important;
 }
 
 /* NAVBAR */
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--secondary-color);
-  list-style-type: none;
-  padding: 1em 3em;
-}
-nav ul {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  gap: 40px;
-}
-.navbar-brand:hover {
-  filter: grayscale(50%);
+.navbar {
+  background-color: var(--secondary-color) !important;
 }
 
 /* MAIN CONTENT */
+.collections-text {
+  font-size: larger;
+  font-weight: bold;
+  color: white;
+  width: 45%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
 
 .container-collections {
+  width: 45%;
+  margin-left: auto !important;
+  margin-right: auto !important;
   gap: 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
 .collections {
-  background-color: salmon;
+  width: 220px;
+  height: 220px;
+  background-color: var(--secondary-color);
+  border-radius: 30px;
+}
+
+.collections a .task-image {
+  width: 35% !important;
+  margin: 10px 40px 40px 10px !important;
+}
+.inside-collections div h4 {
+  color: white;
+  margin-right: 50px;
+}
+.inside-collections {
+  padding: 15px;
+}
+
+span {
+  color: grey;
+}
+
+.collections a .inside-collections img {
+  width: 25%;
+  height: 25%;
+}
+
+.collections .add-image img {
+  width: 100%;
+  padding: 50px;
+  align-items: center;
+  margin: auto !important;
+  filter: brightness(30%);
+}
+
+.collections:hover {
+  box-shadow: 10px 10px 10px white;
+}
+
+.auth-form {
+  width: 30%;
+  margin: 0 auto;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  background-color: var(--secondary-color);
+  padding: 10px 5px;
+  border-radius: 5px;
+  border: 1px solid var(--secondary-color);
+}
+hr {
+  border: 2px solid grey;
+  width: 90%;
+  margin: 10px auto;
+}
+
+h1 {
+  color: white;
+}
+
+/* COLLECTION */
+
+.task-container {
+  width: 60%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.top-container {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.back-btn img {
+  width: 50px;
+  height: auto;
+  background-color: var(--secondary-color);
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.task-status {
+  margin-left: 35px;
+  display: flex;
+  align-items: center;
+  background-color: #252736;
+  padding: 8px 15px;
+  border-radius: 10px;
+  gap: 10px;
+  width: fit-content;
+}
+
+.task-info h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.task-info span {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+.status-icon {
+  margin-left: 10px;
+  width: 35px;
+  height: 35px;
+}
+
+h3 {
+  color: white;
+}
+
+.addtask {
+  border: 2px solid rgb(78, 29, 78);
+  padding: 10px 10px 10px 3%;
+  border-radius: 50px;
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+
+.addtask a img {
+  filter: invert(100%);
+}
+h5 {
+  color: white;
+}
+
+.form-uncompleted {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+  padding: 10px 15px;
+}
+.form-uncompleted label {
+  color: white;
+  padding: 5px;
+}
+
+.form-completed {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(27, 28, 39);
+  border-radius: 10px;
+  padding: 10px 15px;
+}
+.form-completed label {
+  color: white;
+  padding: 5px;
 }

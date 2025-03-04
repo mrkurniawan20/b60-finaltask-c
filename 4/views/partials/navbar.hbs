@@ -1,12 +1,20 @@
+<link rel="stylesheet" href="/assets/css/style.css">
 <nav class="navbar bg-body-tertiary">
-  {{#unless user}}
   <div class="container-fluid justify-content-start">
-    <a href="/login">
-      <button class="btn btn-sm btn-outline-secondary" type="button">Login</button>
-    </a>
-    <a href="/register">
-      <button class="btn btn-sm btn-outline-secondary" type="button">Register</button>
-    </a>
+    <div class="nav-inside ms-auto" style="width: 35%;">
+      {{#unless user}}
+      <a href="/login">
+        <button class="btn btn-sm btn-primary me-4" type="button">Login</button>
+      </a>
+      <a href="/register">
+        <button class="btn btn-sm btn-primary" type="button">Register</button>
+      </a>
+      {{/unless}}
+      {{#if user}}
+      <a href="/logout">
+        <button class="btn btn-sm btn-danger" type="button">Logout</button>
+      </a>
+      {{/if}}
+    </div>
   </div>
-  {{/unless}}
 </nav>

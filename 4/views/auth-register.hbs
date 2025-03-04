@@ -1,67 +1,31 @@
 {{#>layout}}
-
-{{!-- <html lang='en'>
-
-<head>
-    <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Contact Form</title>
-    <link rel='stylesheet' href='{{cssPath}}' />
-    <link rel='icon' type='image/x-icon' href='{{iconPath}}' />
-</head>
-
-<body>
-    <!-- NAV -->
-    <nav>
-        <ul>
-            <img src='img/dumbways.png' alt='Logo Dumbways' width='7%' />
-            <li><a href=''>Home</a></li>
-            <li><a href='myproject'>My Project</a></li>
-            <div class='dropdown'>
-                <a href='#' class='other'>Others ⮟</a>
-                <div class='content'>
-                    <a href='blog'>Blog</a>
-                    <a href='testimonial'>Testimonial</a>
-                </div>
-            </div>
-        </ul>
-        <!-- <a class="contactme" target="_blank" href="form" >Contact Me</a> -->
-    </nav>
-    <!-- NAV --> --}}
-    {{#unless user}}
-    <h1 class="text-center mb-5"><b>REGISTER</b></h1>
-    <form id="register-form" class='auth-form' method="post" action='/auth-register'>
-        <div class='form-field'>
-            <label for='username'>Username</label>
-            <input type='text' name="username" id='username' required />
-        </div>
-        <div class='form-field'>
-            <label for='email'>Email</label>
-            <input type='email' id='email' name="email" required />
-        </div>
-        <div class='form-field'>
-            <label for='password'>Password</label>
-            <input type='password' id='password' name="password" required />
-        </div>
-        <div class='form-field'>
-            <label for='confirmPassword'>Confirm Password</label>
-            <input type='password' id='confirmPassword' name="confirmPassword" required />
-        </div>
-        {{#if messages.error}}
-        <div class="alert alert-danger" role="alert">
-            {{messages.error}}
-        </div>
-        {{/if}}
-        <div class='text-center mt-3'>
-            <button class='btn btn-dark mb-5' type='submit'>Register</button>
-        </div>
-    </form>
-    {{/unless}}
-    {{#if user}}
-    <p class="text-center text-success">You're already logged in</p>
+{{#unless user}}
+<h1 class="text-center mb-5 mt-5"><b>REGISTER</b></h1>
+<form id="register-form" class='auth-form' method="post" action='/auth-register'>
+    <div class='form-field'>
+        <input type='text' name="username" id='username' required placeholder="username" />
+    </div>
+    <div class='form-field'>
+        <input type='email' id='email' name="email" required placeholder="email" />
+    </div>
+    <div class='form-field'>
+        <input type='password' id='password' name="password" required placeholder="password" />
+    </div>
+    <div class='form-field'>
+        <input type='password' id='confirmPassword' name="confirmPassword" required placeholder="confirm password" />
+    </div>
+    {{#if messages.error}}
+    <div class="alert alert-danger" role="alert">
+        {{messages.error}}
+    </div>
     {{/if}}
-    {{!--
-</body>
+    <div class='text-center mt-3'>
+        <button class='btn btn-dark mb-5' type='submit'>Register</button>
+    </div>
+</form>
+{{/unless}}
+{{#if user}}
+<p class="text-center text-success">You're already logged in</p>
+{{/if}}
 
-</html> --}}
 {{/layout}}

@@ -13,7 +13,22 @@ const icon = {
 };
 ('nodemon server.js');
 
-const { renderIndex, renderLogin, renderRegister, authLogin, authRegister, authLogout, addCollection, renderCollection, addTask, updateTask, uncheckTask } = require('./controllers/controller-v2'); //import modul dari js controller
+const {
+  renderIndex,
+  renderLogin,
+  renderRegister,
+  authLogin,
+  authRegister,
+  authLogout,
+  addCollection,
+  renderCollection,
+  addTask,
+  updateTask,
+  uncheckTask,
+  deletetask,
+  deleteCollection,
+  editCollection,
+} = require('./controllers/controller-v2'); //import modul dari js controller
 
 app.set('view engine', 'hbs');
 
@@ -35,6 +50,7 @@ app.use(
 
 app.set('views', path.join(__dirname, './views')); //setting folder view engine
 hbs.registerPartials(__dirname + '/views/partials', function (err) {}); //__dirname buat ngasih tau folder yang mau dituju jadi, BASICALLY DIRNAME ITU FOLDER YANG DIBUKA ^^ YANG DI ATAS BROOOW
+hbs.registerHelper('eq', (a, b) => a === b);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
@@ -57,3 +73,7 @@ app.post('/collection/:id/addtask', addTask);
 
 app.post('/task/:id/update', updateTask);
 app.post('/task/:id/uncheck', uncheckTask);
+
+app.post('/task/:id/delete', deletetask);
+app.post('/collection/:id/delete', deleteCollection);
+app.post('/collection/:id/edit', editCollection);

@@ -2,38 +2,15 @@ const icon = {
   iconPath: '/assets/img/icon.jpg',
   cssPath: '/assets/css/style.css',
 };
-// let blogs = []; kalo blogs:blogs ambil dari sini
 
-//untuk format value tanggal jadi yyyy-mm-dd
-// const { format } = require('date-fns');
-
-const { Sequelize } = require('sequelize'); //pake sequlize biar ga pake raw query kaya di controller v1
-const bcrypt = require('bcrypt'); //pake bcrypt buat enkripsi
+const { Sequelize } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 const config = require('../config/config.json'); //ambil config
 const { Collection, User, Task } = require('../models'); //ambil Blog, sama User, ini table yang ada di sql
 
-//test create project
-// async function createProject() {
-//   try {
-//     const newProject = await Project.create({
-//       authorId: 1,
-//       title: 'My First Project',
-//       image: 'project.png',
-//       content: 'This is the project content.',
-//       skills: 'JavaScript,Node.js,Sequelize', // Assuming skills are stored as a comma-separated string
-//     });
-//     console.log(newProject);
-//   } catch (err) {
-//     console.error('Error creating project:', err);
-//   }
-// }
+const saltRounds = 10;
 
-// createProject();
-
-const saltRounds = 10; //Untuk hashing berapa kali, sebenernya gausah dikasih vairable juga bisa, langusng angka di function
-// const { renderBlogEdit } = require('./controller-v1');
-// require('dotenv').config();
 const sequelize = new Sequelize(config.development); //const sequelize buat masukin config ke function sequelize
 
 async function renderIndex(req, res) {
@@ -46,9 +23,31 @@ async function renderIndex(req, res) {
     },
     order: [['createdAt', 'DESC']],
   });
+
+  const collectionsTask = await Promise.all(
+    collections.map(async (collection) => {
+      const TaskCompleted = await Task.count({
+        where: {
+          collections_id: collection.id,
+          is_done: true,
+        },
+      });
+      const TaskTotal = await Task.count({
+        where: {
+          collections_id: collection.id,
+        },
+      });
+      return {
+        ...collection.toJSON(),
+        TaskCompleted,
+        TaskTotal,
+      };
+    })
+  );
+
   res.render('index', {
     user: user, //deklarasi user nya biar kena detect function session di web page tsb
-    collections: collections,
+    collections: collectionsTask,
     title: 'Home',
     currentPage: 'home',
     ...icon,
@@ -180,7 +179,7 @@ async function renderCollection(req, res) {
     include: {
       model: User,
       as: 'user',
-      attributes: { exclude: ['password'] }, //untuk exclude password just in case someone could see
+      attributes: { exclude: ['password'] },
     },
     where: {
       id: id,
@@ -210,13 +209,14 @@ async function renderCollection(req, res) {
     },
   });
   await res.render('collection', {
-    user: user, //deklarasi user nya biar kena detect function session di web page tsb
-    collection: chosenCollection, //nampilin blog
+    user: user,
+    collection: chosenCollection,
     task: chosenTask,
     title: 'Blog Details',
     currentPage: 'blog',
     TaskCompleted: TaskCompleted,
     TaskUncompleted: TaskUncompleted,
+    TaskTotal: TaskCompleted + TaskUncompleted,
     ...icon,
   });
 }
@@ -259,6 +259,43 @@ async function uncheckTask(req, res) {
   res.redirect('back');
 }
 
+async function deletetask(req, res) {
+  const id = req.params.id;
+  const result = await Task.destroy({ where: { id: id, is_done: true } });
+  res.redirect('back');
+}
+
+async function editCollection(req, res) {
+  const id = req.params.id;
+  const user = await req.session.user;
+  const name = req.body.name;
+
+  const result = await Collection.update(
+    {
+      name: name,
+      updateAt: sequelize.fn('NOW'),
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  );
+  res.redirect(`/collection/${id}`);
+}
+
+async function deleteCollection(req, res) {
+  const collectionId = req.params.id;
+
+  await Task.destroy({
+    where: { collections_id: collectionId },
+  });
+
+  await Collection.destroy({
+    where: { id: collectionId },
+  });
+  res.redirect('/');
+}
 module.exports = {
   renderIndex,
   renderLogin,
@@ -271,4 +308,7 @@ module.exports = {
   addTask,
   updateTask,
   uncheckTask,
+  deletetask,
+  deleteCollection,
+  editCollection,
 };

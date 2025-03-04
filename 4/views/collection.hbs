@@ -1,68 +1,133 @@
 {{#>layout}}
-<div style="display:flex">
-    <a href="/"><img src="/assets/img/back.png" alt=""></a>
-    <div class="m-0">
-        <a href="">
-            <div class="inside-collections" style="display: flex;">
-                <div style="display:block">
-                    <h4>{{collection.name}}</h4>
-                    <span>2/9 Done</span>
-                </div>
-                <img src="/assets/img/clock.png" width="10%" height="2%" alt="">
-                <button class="ms-auto btn btn-danger">delete</button>
-            </div>
+<div class="task-container">
+    <div class="top-container">
+        <a href="/" class="back-btn">
+            <img src="/assets/img/back.png" alt="Back">
         </a>
-    </div>
-</div>
-<div>
-    <a href="" class="m-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        <img src="/assets/img/plus.png" alt="" width="10%"> Add a Task
-    </a>
-</div>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Task</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="task-status">
+            <div class="task-info">
+                <h3>{{collection.name}}</h3>
+                <span>{{TaskCompleted}}/{{TaskTotal}} done</span>
             </div>
-            <div class="modal-body">
-                <form action="/collection/{{collection.id}}/addtask" method="post">
-                    <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Task Name</label>
-                        <input type="text" class="form-control" name="name">
-                    </div>
-                    <div class="mb-3 text-end">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Task</button>
-                    </div>
-                </form>
+            <img src="{{#if (eq TaskCompleted TaskTotal)}}/assets/img/check.png{{else}}/assets/img/clock.png{{/if}}"
+                class="status-icon" alt="Status">
+        </div>
+        {{#if (eq user.id collection.user_id)}}
+        <form class="ms-auto my-auto">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">
+                Edit
+            </button>
+        </form>
+        <form action="/collection/{{collection.id}}/delete" method="post" onclick="return submitForm(this, event)"
+            class="ms-auto my-auto">
+            <button type="button" class="btn btn-danger">
+                Delete
+            </button>
+        </form>
+        {{/if}}
+    </div>
+    {{!-- MODAL EDIT COLLECTION --}}
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 style="color: grey;" class="modal-title fs-5" id="editModalLabel">Edit Collection</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/collection/{{collection.id}}/edit" method="post">
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Enter new Collection Name</label>
+                            <input type="text" class="form-control" name="name">
+                        </div>
+                        <div class="mb-3 text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
+    {{#if (eq user.id collection.user_id)}}
+    <div class="addtask">
+        <a href="" class="m-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <img class="me-4" src="/assets/img/plus.png" alt="" width="5%"> Add a Task
+        </a>
+    </div>
+    {{/if}}
+
+    {{!-- MODAL ADD TASK --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 style="color: grey;" class="modal-title fs-5" id="exampleModalLabel">Add New Task</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/collection/{{collection.id}}/addtask" method="post">
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Task Name</label>
+                            <input type="text" class="form-control" name="name">
+                        </div>
+                        <div class="mb-3 text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add Task</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Task - {{TaskUncompleted}}</h3>
+    {{#each task}}
+    {{#unless is_done}}
+    <form class="form-uncompleted" action="/task/{{this.id}}/update" method="post">
+        <label for="">{{this.name}}</label>
+        <input type="checkbox" name="checkbox" onchange="this.form.submit()" data-task-id="{{this.id}}">
+    </form>
+    {{/unless}}
+    {{/each}}
+    <h3 class="mt-5">Completed - {{TaskCompleted}}</h3>
+    {{#each task}}
+    {{#if is_done}}
+    <form class="form-completed" action="/task/{{this.id}}/delete" method="post"
+        onclick="return submitForm(this, event)">
+        <label for=""><del>{{this.name}}</del> </label>
+        {{#if (eq ../user.id this.collection.user_id)}}
+        <button type="submit" class="btn btn-sm btn-danger">delete</button>
+        {{/if}}
+    </form>
+    {{/if}}
+    {{/each}}
 </div>
 
-<h3>Task - {{TaskUncompleted}}</h3>
-{{#each task}}
-{{#unless is_done}}
-<form action="/task/{{this.id}}/update" method="post" style="display: flex; justify-content:space-between">
-    <label for="">{{this.name}}</label>
-    <input type="checkbox" name="checkbox" onchange="this.form.submit()" data-task-id="{{this.id}}">
-</form>
-{{/unless}}
-{{/each}}
-<h3>Completed - {{TaskCompleted}}</h3>
-{{#each task}}
-{{#if is_done}}
-<form action="/task/{{this.id}}/uncheck" method="post" style="display: flex; justify-content:space-between">
-    <label for="">{{this.name}}</label>
-    <input type="checkbox" name="checkbox" onchange="this.form.submit()" data-task-id="{{this.id}}" checked>
-</form>
-{{!-- <div style="display: flex; justify-content:space-between">
-    <label for="">{{this.name}}</label> <input type="checkbox" checked>
-</div> --}}
-{{/if}}
-{{/each}}
-
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>'
+<script>
+    function submitForm(form, event) {
+        event.preventDefault();
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                }).then(() => {
+                    form.submit()
+                })
+            }
+        });
+    }
+</script>
 {{/layout}}
