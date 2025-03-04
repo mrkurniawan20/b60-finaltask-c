@@ -8,11 +8,11 @@ function sortArray(arr) {
   const correct = ['D', 'u', 'm', 'b', 'w', 'a', 'y', 's', ' ', 'i', 's', ' ', 'a', 'w', 'e', 's', 'o', 'm', 'e'];
 
   for (i = 0; i < arr.length; i++) {
-    let min = i; //buat index minimum
+    let min = i;
 
     for (j = i + 1; j < arr.length; j++) {
-      let indexJ = correct.indexOf(arr[j], i); //index J = nyari index ke j di array correct, mulai dari i
-      let indexMin = correct.indexOf(arr[min], i); //index Min = nyari index ke i di array correct
+      let indexJ = correct.indexOf(arr[j], i);
+      let indexMin = correct.indexOf(arr[min], i);
 
       if (indexJ < indexMin) {
         min = j;
@@ -20,12 +20,12 @@ function sortArray(arr) {
     }
 
     if (min !== i) {
-      let temp = arr[i]; //array ke i dimasukin ke temp
-      arr[i] = arr[min]; //array ke i = array min
-      arr[min] = temp; //array minimum tuker sama temp
+      let temp = arr[i];
+      arr[i] = arr[min];
+      arr[min] = temp;
     }
   }
-
+  console.log('No. 2');
   console.log(arr.join(''));
 }
 

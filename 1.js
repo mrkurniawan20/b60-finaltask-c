@@ -22,6 +22,7 @@ function invest() {
   }
   let twoYearProfit = deposito + obligasi + sahamA + sahamB;
   let profit = twoYearProfit.toLocaleString('id-ID');
+  console.log('No. 1');
   console.log(`Investor's initial investment with profit of two years investment is Rp.${profit}`);
 }
 
