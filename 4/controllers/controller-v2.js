@@ -245,6 +245,20 @@ async function addTask(req, res) {
   res.redirect(`/collection/${id}`);
 }
 
+async function updateTask(req, res) {
+  const id = req.params.id;
+  const checkbox = req.body.checkbox;
+  const result = await Task.update({ is_done: 'true', updateAt: sequelize.fn('NOW') }, { where: { id: id } });
+  res.redirect('back');
+}
+
+async function uncheckTask(req, res) {
+  const id = req.params.id;
+  const checkbox = req.body.checkbox;
+  const result = await Task.update({ is_done: 'false', updateAt: sequelize.fn('NOW') }, { where: { id: id } });
+  res.redirect('back');
+}
+
 module.exports = {
   renderIndex,
   renderLogin,
@@ -255,4 +269,6 @@ module.exports = {
   addCollection,
   renderCollection,
   addTask,
+  updateTask,
+  uncheckTask,
 };

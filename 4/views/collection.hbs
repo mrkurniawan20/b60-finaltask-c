@@ -45,17 +45,22 @@
 <h3>Task - {{TaskUncompleted}}</h3>
 {{#each task}}
 {{#unless is_done}}
-<div style="display: flex; justify-content:space-between">
-    <label for="">{{this.name}}</label> <input type="checkbox">
-</div>
+<form action="/task/{{this.id}}/update" method="post" style="display: flex; justify-content:space-between">
+    <label for="">{{this.name}}</label>
+    <input type="checkbox" name="checkbox" onchange="this.form.submit()" data-task-id="{{this.id}}">
+</form>
 {{/unless}}
 {{/each}}
 <h3>Completed - {{TaskCompleted}}</h3>
 {{#each task}}
 {{#if is_done}}
-<div style="display: flex; justify-content:space-between">
+<form action="/task/{{this.id}}/uncheck" method="post" style="display: flex; justify-content:space-between">
+    <label for="">{{this.name}}</label>
+    <input type="checkbox" name="checkbox" onchange="this.form.submit()" data-task-id="{{this.id}}" checked>
+</form>
+{{!-- <div style="display: flex; justify-content:space-between">
     <label for="">{{this.name}}</label> <input type="checkbox" checked>
-</div>
+</div> --}}
 {{/if}}
 {{/each}}
 

@@ -13,32 +13,7 @@ const icon = {
 };
 ('nodemon server.js');
 
-const {
-  renderIndex,
-  renderLogin,
-  renderRegister,
-  authLogin,
-  authRegister,
-  authLogout,
-  renderBlog,
-  renderBlogDetail,
-  renderBlogEdit,
-  renderCreateBlog,
-  renderTestimonial,
-  renderForm,
-  createBlog,
-  deleteBlog,
-  updateBlog,
-  renderProjects,
-  createProject,
-  renderCreateProject,
-  deleteProject,
-  updateProject,
-  renderProjectEdit,
-  addCollection,
-  renderCollection,
-  addTask,
-} = require('./controllers/controller-v2'); //import modul dari js controller
+const { renderIndex, renderLogin, renderRegister, authLogin, authRegister, authLogout, addCollection, renderCollection, addTask, updateTask, uncheckTask } = require('./controllers/controller-v2'); //import modul dari js controller
 
 app.set('view engine', 'hbs');
 
@@ -79,3 +54,6 @@ app.post('/addcollection', addCollection);
 
 app.get('/collection/:id', renderCollection);
 app.post('/collection/:id/addtask', addTask);
+
+app.post('/task/:id/update', updateTask);
+app.post('/task/:id/uncheck', uncheckTask);
