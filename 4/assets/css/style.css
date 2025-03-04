@@ -116,6 +116,7 @@ span {
 .form-field input,
 .form-field select,
 .form-field textarea {
+  color: white;
   background-color: var(--secondary-color);
   padding: 10px 5px;
   border-radius: 5px;
