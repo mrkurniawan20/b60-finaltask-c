@@ -1,0 +1,26 @@
+{{#>layout}}
+<h1 class="text-center"><b>Edit Blog</b></h1>
+<!-- FORM -->
+<form action="/blog-update/{{blog.id}}?_method=PATCH" method="post" enctype="multipart/form-data">
+  <div class='form-field'>
+    <label for='title'>Title</label>
+    <input name="title" type='text' id='title' value='{{blog.title}}' />
+  </div>
+  <div class='form-field'>
+    <label for='content'>Your Blog Content</label>
+    <textarea name='content' id='content' rows='5'>{{blog.content}}</textarea>
+  </div>
+  <div class='form-field'>
+    <label for='image'>Upload Image</label>
+    <input type='file' id='image' name='image' />
+  </div>
+  <div class='text-end mb-5'>
+    <button class='btn btn-dark' type='submit'>save</button>
+  </div>
+</form>
+
+<!-- BLOG LIST -->
+{{!--
+<script src='js/blog.js'></script> --}}
+
+{{/layout}}
