@@ -1,0 +1,63 @@
+{{#>layout}}
+<div style="display:flex">
+    <a href="/"><img src="/assets/img/back.png" alt=""></a>
+    <div class="m-0">
+        <a href="">
+            <div class="inside-collections" style="display: flex;">
+                <div style="display:block">
+                    <h4>{{collection.name}}</h4>
+                    <span>2/9 Done</span>
+                </div>
+                <img src="/assets/img/clock.png" width="10%" height="2%" alt="">
+                <button class="ms-auto btn btn-danger">delete</button>
+            </div>
+        </a>
+    </div>
+</div>
+<div>
+    <a href="" class="m-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <img src="/assets/img/plus.png" alt="" width="10%"> Add a Task
+    </a>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Task</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/collection/{{collection.id}}/addtask" method="post">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Task Name</label>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="mb-3 text-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Task - {{TaskUncompleted}}</h3>
+{{#each task}}
+{{#unless is_done}}
+<div style="display: flex; justify-content:space-between">
+    <label for="">{{this.name}}</label> <input type="checkbox">
+</div>
+{{/unless}}
+{{/each}}
+<h3>Completed - {{TaskCompleted}}</h3>
+{{#each task}}
+{{#if is_done}}
+<div style="display: flex; justify-content:space-between">
+    <label for="">{{this.name}}</label> <input type="checkbox" checked>
+</div>
+{{/if}}
+{{/each}}
+
+
+{{/layout}}

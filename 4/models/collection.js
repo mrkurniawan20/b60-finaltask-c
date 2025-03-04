@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       });
+
+      Collection.hasMany(models.Task, {
+        foreignKey: 'collections_id',
+        as: 'tasks',
+      });
     }
   }
   Collection.init(

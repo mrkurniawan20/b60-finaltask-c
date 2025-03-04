@@ -35,6 +35,9 @@ const {
   deleteProject,
   updateProject,
   renderProjectEdit,
+  addCollection,
+  renderCollection,
+  addTask,
 } = require('./controllers/controller-v2'); //import modul dari js controller
 
 app.set('view engine', 'hbs');
@@ -71,3 +74,8 @@ app.get('/register', renderRegister);
 app.post('/auth-login', authLogin);
 app.post('/auth-register', authRegister);
 app.get('/logout', authLogout);
+
+app.post('/addcollection', addCollection);
+
+app.get('/collection/:id', renderCollection);
+app.post('/collection/:id/addtask', addTask);

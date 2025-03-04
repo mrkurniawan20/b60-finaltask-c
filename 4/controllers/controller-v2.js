@@ -161,6 +161,90 @@ async function authLogout(req, res) {
   res.redirect('/login');
 }
 
+async function addCollection(req, res) {
+  const user = await req.session.user;
+  const name = req.body.name;
+
+  const newCollection = {
+    name,
+    user_id: user.id,
+  };
+  const resultSubmit = await Collection.create(newCollection);
+  res.redirect('/');
+}
+
+async function renderCollection(req, res) {
+  const id = req.params.id;
+  const user = await req.session.user;
+  const chosenCollection = await Collection.findOne({
+    include: {
+      model: User,
+      as: 'user',
+      attributes: { exclude: ['password'] }, //untuk exclude password just in case someone could see
+    },
+    where: {
+      id: id,
+    },
+  });
+  const chosenTask = await Task.findAll({
+    include: {
+      model: Collection,
+      as: 'collection',
+    },
+    where: {
+      collections_id: chosenCollection.id,
+    },
+    order: [['createdAt', 'DESC']],
+  });
+  const TaskCompleted = await Task.count({
+    where: {
+      collections_id: chosenCollection.id,
+      is_done: true,
+    },
+  });
+
+  const TaskUncompleted = await Task.count({
+    where: {
+      collections_id: chosenCollection.id,
+      is_done: false,
+    },
+  });
+  await res.render('collection', {
+    user: user, //deklarasi user nya biar kena detect function session di web page tsb
+    collection: chosenCollection, //nampilin blog
+    task: chosenTask,
+    title: 'Blog Details',
+    currentPage: 'blog',
+    TaskCompleted: TaskCompleted,
+    TaskUncompleted: TaskUncompleted,
+    ...icon,
+  });
+}
+
+async function addTask(req, res) {
+  const id = req.params.id;
+  const user = await req.session.user;
+  const name = req.body.name;
+  const chosenCollection = await Collection.findOne({
+    include: {
+      model: User,
+      as: 'user',
+      attributes: { exclude: ['password'] }, //untuk exclude password just in case someone could see
+    },
+    where: {
+      id: id,
+    },
+  });
+
+  const newTask = {
+    name,
+    is_done: false,
+    collections_id: chosenCollection.id,
+  };
+  const result = Task.create(newTask);
+  res.redirect(`/collection/${id}`);
+}
+
 module.exports = {
   renderIndex,
   renderLogin,
@@ -168,4 +252,7 @@ module.exports = {
   authLogin,
   authRegister,
   authLogout,
+  addCollection,
+  renderCollection,
+  addTask,
 };
