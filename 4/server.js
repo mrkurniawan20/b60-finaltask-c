@@ -28,7 +28,7 @@ const {
   deletetask,
   deleteCollection,
   editCollection,
-} = require('./controllers/controller-v2'); //import modul dari js controller
+} = require('./controllers/controller-v2');
 
 app.set('view engine', 'hbs');
 
@@ -40,16 +40,15 @@ app.use(methodOverride('_method'));
 app.use(flash());
 app.use(
   session({
-    //ngasih tau kalo server menggunakan session
-    name: 'my-session', //nama
-    secret: 'qwertyuiop', //secret key bebas(?)
-    resave: false, //??
-    saveUninitialized: true, //??
+    name: 'my-session',
+    secret: 'qwertyuiop',
+    resave: false,
+    saveUninitialized: true,
   })
 );
 
-app.set('views', path.join(__dirname, './views')); //setting folder view engine
-hbs.registerPartials(__dirname + '/views/partials', function (err) {}); //__dirname buat ngasih tau folder yang mau dituju jadi, BASICALLY DIRNAME ITU FOLDER YANG DIBUKA ^^ YANG DI ATAS BROOOW
+app.set('views', path.join(__dirname, './views'));
+hbs.registerPartials(__dirname + '/views/partials', function (err) {});
 hbs.registerHelper('eq', (a, b) => a === b);
 
 app.listen(port, () => {
